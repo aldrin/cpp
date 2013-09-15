@@ -1,4 +1,1 @@
-cpp
-===
-
-C++ Code
+My C++ code
