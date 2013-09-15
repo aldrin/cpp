@@ -1,0 +1,18 @@
+{
+  "env": {
+    "ajd": {
+      "CMAKE_PREFIX_PATH": "/Users/aldrin/Packages/openssl"
+    }
+  },
+  "builders": {
+    "xcode": "Xcode",
+    "ninja": "Ninja",
+    "make": "Unix Makefiles",
+    "vstudio": ""
+  },
+  "options": [{
+      "env": "CMAKE_PREFIX_PATH",
+      "projects": ["crypto"]
+    }
+  ]
+}
