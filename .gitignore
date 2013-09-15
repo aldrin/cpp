@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+*.pyc
+*.elc
+*.iws
+*.iml
+.DS_Store
+target/
+.idea/

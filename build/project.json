@@ -1,7 +1,8 @@
 {
   "env": {
     "ajd": {
-      "CMAKE_PREFIX_PATH": "/Users/aldrin/Packages/openssl"
+      "OPENSSL_INCLUDE": "/usr/local/opt/openssl/include",
+      "OPENSSL_CRYPTO": "/usr/local/opt/openssl/lib/libcrypto.a"
     }
   },
   "builders": {
@@ -11,7 +12,10 @@
     "vstudio": ""
   },
   "options": [{
-      "env": "CMAKE_PREFIX_PATH",
+      "env": "OPENSSL_INCLUDE",
+      "projects": ["crypto"]
+    }, {
+      "env": "OPENSSL_CRYPTO",
       "projects": ["crypto"]
     }
   ]
