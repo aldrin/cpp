@@ -1,6 +1,6 @@
 #include <iostream>
 #include <coro/pipeline.hpp>
-#include <valgrind/callgrind.h>
+//#include <valgrind/callgrind.h>
 
 typedef basic_pipeline<int> pipeline;
 
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
   auto func = flexibly;
   if(argc > 1) { func = rigidly; }
 
-  CALLGRIND_START_INSTRUMENTATION;
+//  CALLGRIND_START_INSTRUMENTATION;
   std::cout << func() << std::endl;
-  CALLGRIND_STOP_INSTRUMENTATION;
+//  CALLGRIND_STOP_INSTRUMENTATION;
 }

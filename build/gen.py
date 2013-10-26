@@ -6,7 +6,7 @@ from subprocess import Popen
 from socket import gethostname
 from argparse import ArgumentParser
 from os.path import join, exists, dirname, abspath
-from os import curdir, environ, makedirs, removedirs
+from os import curdir, environ, makedirs
 
 manifest = loads(file('project.json').read())
 host = gethostname()
@@ -16,16 +16,14 @@ env = (manifest['env'][host] if host in manifest['env'] else {})
 
 
 def generate(builder, project, debug):
-
     src = join(dirname(abspath(curdir)), project)
 
     if not exists(src):
         raise NameError('project "{0}" source not found in {1}'.format(project, src))
 
     generator = (builder if builder not in builders else builders[builder])
-    builddir = join(join(curdir, builder), project)
-    cmake_opts = ['cmake', '-G', generator]
-    cmake_opts.append('-DCMAKE_MODULE_PATH={0}'.format(abspath(curdir)))
+    build_dir = join(join(curdir, builder), project)
+    cmake_opts = ['cmake', '-G', generator, '-DCMAKE_MODULE_PATH={0}'.format(abspath(curdir))]
 
     if debug:
         cmake_opts.append('-DCMAKE_BUILD_TYPE=Debug')
@@ -52,7 +50,7 @@ def generate(builder, project, debug):
                 cmake_opts.append(command)
 
     cmake_opts.append(src)
-    return (builddir, cmake_opts)
+    return build_dir, cmake_opts
 
 
 if __name__ == '__main__':
@@ -71,6 +69,7 @@ if __name__ == '__main__':
                 print 'rm -rf {0}'.format(builddir)
             else:
                 import shutil
+
                 shutil.rmtree(builddir)
         else:
             if args.show:
