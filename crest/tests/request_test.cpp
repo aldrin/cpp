@@ -57,37 +57,46 @@ void test_parse()
 
 void test_http_parser_cases()
 {
-  for(int i = 0; requests[i].name; i++) {
+  for(int i = 0; requests[i].name; i++)
+  {
     crest::request request;
     assert(request.update(requests[i].raw));
     assert(request.url() == requests[i].request_url);
     assert(request.method() == http_method_str(http_method(requests[i].method)));
-    for(int j = 0; j < requests[i].num_headers; j++) {
+    for(int j = 0; j < requests[i].num_headers; j++)
+    {
       std::string name(requests[i].headers[j][0]);
       std::string value(requests[i].headers[j][1]);
       assert(request.has_header(name));
       assert(request.header(name) == value);
     }
     assert(request.content() == requests[i].body);
-    if(requests[i].host) {
+    if(requests[i].host)
+    {
       assert(request.has_parameter("url_host"));
       assert(request.parameter("url_host") == requests[i].host);
     }
-    if(requests[i].request_path && strlen(requests[i].request_path)) {
+
+    if(requests[i].request_path && strlen(requests[i].request_path))
+    {
       assert(request.has_parameter("url_path"));
       assert(request.parameter("url_path") == requests[i].request_path);
     }
-    if(requests[i].query_string && strlen(requests[i].query_string)) {
+
+    if(requests[i].query_string && strlen(requests[i].query_string))
+    {
       assert(request.has_parameter("url_query"));
       assert(request.parameter("url_query") == requests[i].query_string);
     }
   }
 }
+
 #else
 void test_http_parser_cases()
 {
   std::cout << "ignoring http_parser test cases" << std::endl;
 }
+
 #endif
 
 int main()

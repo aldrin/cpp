@@ -4,16 +4,14 @@
 #include "request_reader.hpp"
 
 namespace crest {
-  request::~request()
-  {
-  }
+request::~request()
+{}
 
-  request::request(): parser_(new parser(*this))
-  {
-  }
+request::request(): parser_(new parser(*this))
+{}
 
-  bool request::update(const char *buffer, size_t length)
-  {
-    return parser_->update(buffer, length);
-  }
+bool request::update(const char *buffer, size_t length)
+{
+  return parser_->update(buffer, length);
+}
 }

@@ -12,28 +12,28 @@
 #include <crest/router.hpp>
 
 namespace crest {
+class server {
+public:
+  server(const config& cfg = config());
 
-  class server {
+  template<typename HANDLER> void add_route(const std::string& url, HANDLER h)
+  {
+    router_.add_route(url, handler(h));
+  }
 
-  public:
-    server(const config& cfg = config());
+  void run()
+  {
+    io_service_.run();
+  }
 
-    template<typename HANDLER> void add_route(const std::string& url, HANDLER h) {
-      router_.add_route(url, handler(h));
-    }
+private:
 
-    void run() {
-      io_service_.run();
-    }
-
-  private:
-
-    config config_;
-    router router_;
-    struct acceptor;
-    struct connection;
-    void handle(request&, response&);
-    boost::asio::io_service io_service_;
-    std::shared_ptr<acceptor> acceptor_;
-  };
+  config config_;
+  router router_;
+  struct acceptor;
+  struct connection;
+  void handle(request&, response&);
+  boost::asio::io_service io_service_;
+  std::shared_ptr<acceptor> acceptor_;
+};
 }

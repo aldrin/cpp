@@ -1,5 +1,6 @@
 // Copyright (C) 2013, Aldrin D'Souza.
-// Licensing Terms: http://opensource.org/licenses/BSD-2-Clause
+// Licensing Terms:
+// http://opensource.org/licenses/BSD-2-Clause
 
 #include <crest/server.hpp>
 #include <iostream>
@@ -7,10 +8,12 @@
 void hello(const crest::request& request, crest::response& response)
 {
   response.content.append("Hello");
-  if(request.has_parameter("name")) {
+  if(request.has_parameter("name"))
+  {
     response.content.append(" ");
     response.content.append(request.parameter("name"));
   }
+
   response.status = crest::http_status::ok;
 };
 

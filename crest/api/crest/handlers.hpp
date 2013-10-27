@@ -3,6 +3,4 @@
 
 #pragma once
 
-namespace crest {
-
-}
+namespace crest {}

@@ -4,20 +4,19 @@
 #include <crest/config.hpp>
 
 namespace crest {
+namespace defaults {
+const char *port = "8111";
+};
 
-  namespace defaults {
-    const char *port = "8111";
-  };
-
-  const std::map<config::key, config::spec> config::key_spec_ {
-    {
-      key::port,
-      std::make_tuple
-      (
-        "port",
-        "HTTP acceptor port",
-        defaults::port
-      )
-    }
-  };
+const std::map<config::key, config::spec> config::key_spec_ {
+  {
+    key::port,
+    std::make_tuple
+    (
+      "port",
+      "HTTP acceptor port",
+      defaults::port
+    )
+  }
+};
 }
