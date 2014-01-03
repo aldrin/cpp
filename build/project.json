@@ -12,11 +12,10 @@
     "vstudio": ""
   },
   "options": [{
-      "env": "OPENSSL_INCLUDE",
-      "projects": ["crypto"]
-    }, {
-      "env": "OPENSSL_CRYPTO",
-      "projects": ["crypto"]
-    }
-  ]
+    "env": "OPENSSL_INCLUDE",
+    "projects": ["crypto"]
+  }, {
+    "env": "OPENSSL_CRYPTO",
+    "projects": ["crypto"]
+  }]
 }

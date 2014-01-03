@@ -1,0 +1,69 @@
+struct connection : public std::enable_shared_from_this<connection> {
+  message in_;
+  message out_;
+  handler handler_;
+  tcp::socket socket_;
+  connection(io_service &svc, handler h)
+      : in_(8192), handler_{h}, socket_{svc} {}
+  void expect_data() {
+    auto h = [&](std::error_code err, std::size_t len) {
+      if (!err) {
+        handle(len);
+      }
+    };
+    socket_.async_read_some(buffer(in_), h);
+  }
+
+  void handle(std::size_t length) {
+    out_.clear();
+    handler_(in_, out_);
+  }
+
+  // socket_.async_read_some(buffer(request_),
+  //                         [&] (std::error_code err, std::size_t
+  // length){
+  //                           if(!err)
+  //                           {
+  //                             response_.clear();
+  //                             handler_(request_, response_);
+  //                             async_write
+  //                               (socket_, buffer(response_),
+  //                               [&] (std::error_code err){ if(err) {
+  // socket_.shutdown(tcp::socket::shutdown_both, err); } });
+  //                           }
+  //                         });
+};
+}
+
+class tcp_request {};
+class http_request {};
+
+class server {
+public:
+  template <typename HANDLER>
+  server(HANDLER h, short port = 8111)
+      : handler_{}, acceptor_{io_service_, tcp::endpoint(tcp::v4(), port)} {}
+
+  void start() {
+    expect_connection();
+    io_service_.run();
+  }
+
+  void stop() { io_service_.stop(); }
+
+private:
+  void expect_connection() {
+    std::shared_ptr<connection> c{
+        std::make_shared<connection>(io_service_, handler_)};
+    acceptor_.async_accept(c->socket_, [=](std::error_code err) {
+      if (!err) {
+        c->expect_data();
+      }
+      this->expect_connection();
+    });
+  }
+
+  handler handler_;
+  io_service io_service_;
+  tcp::acceptor acceptor_;
+};
